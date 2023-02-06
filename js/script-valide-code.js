@@ -25,7 +25,6 @@ let shopMax = [],
 	outputShops = "",
 	layerActived = false,
 	countLayer = 0;
-    let newArr = []
 
 //Fetch initialMap
 const fetchInitialMap = () => {
@@ -406,26 +405,6 @@ $.when(counties).done(function () {
 		const { shop, shopCode, adress, url, nom, region, shops } =
 			feature.properties;
 
-        let fullRegions = [];
-
-
-        fullRegions.push(feature.properties.region);
-
-        fullRegions.forEach((data,index) => {
-            console.log(data)
-        })
-
-
-        function showShop(name) {
-            if(fullRegions.includes(name)) {
-                newArr.push(region)
-                return newArr.length
-            } else  {
-                console.log("no")
-            }
-        }
-        
-
 		data.push(feature.geometry.type);
 
 		data.filter((datas) => {
@@ -462,21 +441,21 @@ $.when(counties).done(function () {
 		});
 
 		if (feature.geometry.type === "Point") {
-			// const nameData = [
-			// 	"Île-de-France",
-			// 	"Bourgogne-Franche-Comté",
-			// 	"Hauts-de-France"
-			// ];
-			// // console.log(layer);
-			// for (var i = 0; i <= nameData.length; i++) {
-			// 	feature.properties.region.includes(nameData[i])
-			// 		? names.push(feature.properties.region)
-			// 		: "";
-			// }
+			const nameData = [
+				"Île-de-France",
+				"Bourgogne-Franche-Comté",
+				"Hauts-de-France"
+			];
+			// console.log(layer);
+			for (var i = 0; i <= nameData.length; i++) {
+				feature.properties.region.includes(nameData[i])
+					? names.push(feature.properties.region)
+					: "";
+			}
 			layer.off("click");
 		} else {
 			feature.properties.isActived === 1
-				? console.log("edddddddd",feature.properties)
+				? console.log(feature.properties.nom)
 				: "";
 			feature.properties.isActived === 1
 				? layer.bindPopup(
@@ -548,15 +527,14 @@ const showUsers = (arr) => {
 		const shopCodeShort = shopCode;
 		let newShop = shopCodeShort.toString();
 		newShop = newShop.substring(0, 2);
-		output += 
-        `
-			<div class="map-item">
-			    <a href="${url}" class="title target="_blank">${shop}(${newShop})</a><br/>
-				<i class="qualification">${qualification}</i>
-				<p class="adress">${adress}</p>
-				<a href="${url}" target="_blank" class="see-shop">Page infos <i class="fa-solid fa-chevron-right"></i> </a>
-			</div>
-		`;
+		output += `
+					<div class="map-item">
+						<a href="${url}" class="title target="_blank">${shop}(${newShop})</a><br/>
+						<i class="qualification">${qualification}</i>
+						<p class="adress">${adress}</p>
+						<a href="${url}" target="_blank" class="see-shop">Page infos <i class="fa-solid fa-chevron-right"></i> </a>
+					</div>
+			        `;
 	});
 	$(".grid-content .info-panel .context").html(
 		`<h4 class="title-shop">Points de distributions<br/> Super Retro Game magazine</h4> <div class="shop-values"><b>France</b> <span>(${
